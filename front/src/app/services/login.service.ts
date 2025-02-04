@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Joueur {
   id?: number;           // idJoueur
@@ -12,45 +13,92 @@ export interface Joueur {
   providedIn: 'root'
 })
 export class LoginService {
+  private baseUrl = 'http://127.0.0.1:8000';
+  private userSubject = new BehaviorSubject<any | null>(this.getUser());
 
-  private baseUrl = 'http://127.0.0.1:8000'; 
-  // ou bien la machine/port où tourne votre API FastAPI
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   /**
-   * Crée un joueur (inscription)
+   * Crée un joueur (inscription) et connecte immédiatement
    */
   creerJoueur(nomUtilisateur: string, motDePasse: string): Observable<any> {
-    const body = { nomUtilisateur, motDePasse };
-    return this.http.post(`${this.baseUrl}/joueurs/`, body);
+    return new Observable(observer => {
+      this.http.post(`${this.baseUrl}/joueurs/`, { nomUtilisateur, motDePasse }).subscribe({
+        next: (response) => {
+          console.log(response)
+          const user = { id: response, nomUtilisateur };
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('user', JSON.stringify(user)); // ✅ Stockage session
+          }
+          this.userSubject.next(user); // ✅ Mise à jour de l'état
+          this.router.navigate(['/']); // ✅ Redirection automatique
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
   }
 
   /**
-   * Liste tous les joueurs
-   */
-  listerJoueurs(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/joueurs/`);
-  }
-
-  /**
-   * Récupère un joueur par son ID
-   */
-  recupererJoueur(idJoueur: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/joueurs/${idJoueur}`);
-  }
-
-  /**
-   * Supprime un joueur par son ID
-   */
-  supprimerJoueur(idJoueur: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/joueurs/${idJoueur}`);
-  }
-
-  /**
-   * Connexion d'un joueur
+   * Connexion d'un joueur et mise à jour de la session
    */
   loginJoueur(nomUtilisateur: string, motDePasse: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login/`, { nomUtilisateur, motDePasse });
+    return new Observable(observer => {
+      this.http.post(`${this.baseUrl}/login/`, { nomUtilisateur, motDePasse }).subscribe({
+        next: (response) => {
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('user', JSON.stringify(response)); // ✅ Vérification
+          }
+          this.userSubject.next(response);
+          observer.next(response);
+          observer.complete();
+          this.router.navigate(['/']); // ✅ Redirection automatique
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
   }
+
+  /**
+   * Vérifier si un utilisateur est connecté
+   */
+  isAuthenticated(): boolean {
+    return typeof window !== 'undefined' && sessionStorage.getItem('user') !== null;
+  }
+
+  /**
+   * Récupérer les informations de l'utilisateur
+   */
+  getUser(): Joueur | null {
+    if (typeof window === 'undefined') {
+      return null; // ✅ Empêcher les erreurs côté serveur
+    }
+    const user = sessionStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
+
+  /**
+   * Observable pour suivre l'état de connexion
+   */
+  getUserObservable(): Observable<Joueur | null> {
+    return this.userSubject.asObservable();
+  }
+
+  /**
+   * Déconnexion de l'utilisateur
+   */
+  logout(): void {
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('user'); // ✅ Vérification
+    }
+    this.userSubject.next(null);
+    this.router.navigate(['/login']);
+
+  }
+
 }
