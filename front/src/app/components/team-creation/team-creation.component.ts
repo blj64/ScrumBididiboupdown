@@ -1,31 +1,26 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';@Component({
+import { FormsModule } from '@angular/forms';
+
+@Component({
   selector: 'app-team-creation',
   standalone: true,
   imports: [NgFor, FormsModule],
   templateUrl: './team-creation.component.html',
-  styleUrl: './team-creation.component.css'
+  styleUrls: ['./team-creation.component.css']
 })
 export class TeamCreationComponent {
   players = [
-    'Jean-Michel Patate',
-    'Serge le Lama',
-    'Robert Cuillère',
-    'Ginette Turbo',
-    'Patrick Bingo',
-    'Jacqueline Tornado',
-    'Bernard Casse-Cou',
-    'Kevin Choucroute',
-    'Maurice Pastis',
-    'Josiane Dynamite',
-    'Alphonse Frometon',
-    'Gertrude Missile',
-    'Michel Tronçonneuse',
-    'René Macaron',
-    'Suzette Bagarre',
-    'Norbert Explosion'
+    "Jean Bonito", "Lucien Chien", "Maxime Dupont", "Léon Burger", "Jules Duvet", "Pierre Gagné",
+    "Antoine Bateau", "Élodie Goudron", "Léo Gâteau", "Hugo Mouette", "Carla Lutin", "Paul Poisson",
+    "Charlotte Canne", "Marc Lampe", "Louis Doudou", "Claire Râteau", "Quentin Camembert", "Alice Perron",
+    "Florian Deschamps", "Nadine Chiffon", "Bernard Pompier", "Pauline Jouet", "Olivier Manteau", "Sophie Boudin",
+    "Franck Mouche", "Isabelle Papillon", "Vincent Croissant", "Sophie Tarte", "Damien Trucmuche", "Audrey Cheval",
+    "Thierry Grenouille", "Bernard Légume"
   ];
-    selectedPlayers: string[] = Array(16).fill(null);
+  
+  // Create 16 teams (each with 2 players)
+  selectedPlayers: string[] = Array(32).fill(null);
+  teamNames: string[] = Array.from({ length: 16 }, (_, i) => `Team ${i + 1}`);
 }

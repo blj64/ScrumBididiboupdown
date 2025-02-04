@@ -1,0 +1,70 @@
+/* Basic layout and spacing */
+.team-container {
+    margin-bottom: 5px;
+    padding: 15px;
+    border-radius: 8px;
+    width: 30%; /* Set the width of each team */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+  }
+  
+  /* Title of each team */
+  .team-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Adding alternating background colors for the teams */
+  .team-container:nth-child(odd) {
+    background-color: #f0f0f0;
+  }
+  
+  .team-container:nth-child(even) {
+    background-color: #d9f7be;
+  }
+  
+  /* Styling the player label */
+  .player-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1em;
+  }
+  
+  /* Styling the select dropdown */
+  .player-dropdown {
+    width: 100%;
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    margin-bottom: 10px;
+  }
+  
+  /* Option styling */
+  .player-option {
+    padding: 5px;
+    font-size: 1em;
+  }
+  
+  /* Grid Layout for Team Containers */
+  .team-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 teams per row */
+    gap: 10px; /* Adds space between the teams */
+  }
+  
+  /* Adjust the responsive behavior for smaller screens */
+  @media (max-width: 1024px) {
+    .team-container {
+      width: 45%; /* Set the width of each team to 45% on medium screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .team-container {
+      width: 100%; /* Set the width of each team to 100% on smaller screens */
+    }
+  }
+  
