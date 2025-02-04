@@ -13,7 +13,7 @@ export interface Joueur {
   providedIn: 'root'
 })
 export class LoginService {
-  private baseUrl = 'http://127.0.0.1:8000';
+  private baseUrl = 'http://backend:8000';
   private userSubject = new BehaviorSubject<any | null>(this.getUser());
 
   constructor(private http: HttpClient, private router: Router) { }
