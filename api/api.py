@@ -184,3 +184,13 @@ def creer_classement(classement: ClassementCreate, db: Session = Depends(get_db)
     db.commit()
     db.refresh(new_classement)
     return {"message": "Classement mis à jour", "id": new_classement.idClassement}
+    
+# Supprimer un compte
+@app.delete("/joueurs/{id_joueur}")
+def delete_joueur(id_joueur: int, db: Session = Depends(get_db)):
+    joueur = db.query(Joueur).filter(Joueur.idJoueur == id_joueur).first()
+    if not joueur:
+        raise HTTPException(status_code=404, detail="Joueur non trouvé")
+    db.delete(joueur)
+    db.commit()
+    return {"message": "Compte supprimé avec succès"}

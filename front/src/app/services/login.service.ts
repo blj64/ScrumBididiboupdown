@@ -87,6 +87,24 @@ export class LoginService {
   }
 
   /**
+   * Supprimer le compte utilisateur
+   */
+  deleteAccount(id: number): Observable<any> {
+    return new Observable(observer => {
+      this.http.delete(`${this.baseUrl}/joueurs/${id}`).subscribe({
+        next: () => {
+          this.logout();  // Déconnecte après suppression
+          observer.next({ message: "Compte supprimé avec succès." });
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
+  }
+
+  /**
    * Vérifier si un utilisateur est connecté
    */
   isAuthenticated(): boolean {

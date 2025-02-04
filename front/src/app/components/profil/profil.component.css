@@ -46,6 +46,16 @@
     background-color: #e5533d;
   }
   
+  /* Style du bouton de suppression */
+  .delete-btn {
+    margin-top: 20px;
+    background-color: #dc3545;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+  
   .message {
     margin-top: 15px;
     color: green;
