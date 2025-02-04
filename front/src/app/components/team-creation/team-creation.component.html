@@ -1,12 +1,28 @@
-<div class="team-row">
-    <div *ngFor="let team of teamNames; let i = index" class="team-container">
-      <h3 class="team-title">{{ team }}</h3>
-      <div *ngFor="let player of selectedPlayers.slice(i * 2, (i + 1) * 2); let j = index" class="player-selector">
-        <label for="player-{{ i * 2 + j }}" class="player-label">Player {{ i * 2 + j + 1 }}:</label>
-        <select [(ngModel)]="selectedPlayers[i * 2 + j]" id="player-{{ i * 2 + j }}" class="player-dropdown">
-          <option *ngFor="let p of players" [value]="p" class="player-option">{{ p }}</option>
-        </select>
-      </div>
-    </div>
-  </div>
-  
+<label for="playerCount">Nombre total de joueurs :</label>
+<input type="number" id="playerCount" [(ngModel)]="playerCount" min="2" step="2">
+<label for="date">Date du tournoi</label>
+<input type="date">
+<button (click)="createTournament()">Créer un tournoi</button>
+
+<!-- Étape 2 : Inscription des équipes -->
+<div *ngIf="tournamentCreated">
+  <h3>Inscrivez-vous :</h3>
+
+  <label for="myName">Votre nom :</label>
+  <input type="text" id="myName" #myNameInput>
+
+  <label for="friendName">Nom de votre pote :</label>
+  <input type="text" id="friendName" #friendNameInput>
+
+  <button (click)="registerMyTeam(myNameInput.value, friendNameInput.value)">S'inscrire</button>
+</div>
+
+<!-- Affichage des équipes inscrites -->
+<div *ngIf="players.length > 0">
+  <h3>Équipes inscrites :</h3>
+  <ul>
+    <li *ngFor="let team of players">
+      {{ team.myName }} & {{ team.friendName }}
+    </li>
+  </ul>
+</div>
