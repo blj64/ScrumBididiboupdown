@@ -51,4 +51,3 @@ CREATE TABLE Classement (
   FOREIGN KEY (idTournoi) REFERENCES Tournois(idTournoi) ON DELETE CASCADE,
   FOREIGN KEY (idEquipe) REFERENCES Equipes(idEquipe) ON DELETE CASCADE
 );
-

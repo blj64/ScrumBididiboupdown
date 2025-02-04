@@ -3,6 +3,7 @@ import { Component, NgModule } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { LoginService } from '../../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -46,23 +47,13 @@ export class LoginComponent {
     const { nomUtilisateur, motDePasse } = this.authForm.value;
 
     if (this.isLoginMode) {
-      // Connexion
       this.authService.loginJoueur(nomUtilisateur, motDePasse).subscribe({
-        next: (response) => {
-          this.message = response.message + ' (ID=' + response.id + ')';
-          localStorage.setItem('user', JSON.stringify(response));
-        },
         error: (error) => {
           this.errorMessage = error.error.detail || 'Erreur de connexion.';
         }
       });
     } else {
-      // Inscription
       this.authService.creerJoueur(nomUtilisateur, motDePasse).subscribe({
-        next: (response) => {
-          this.message = response.message + ' (ID=' + response.id + ')';
-          this.authForm.reset();
-        },
         error: (error) => {
           this.errorMessage = error.error.detail || 'Erreur lors de la création du compte.';
         }
