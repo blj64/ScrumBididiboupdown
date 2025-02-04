@@ -1,0 +1,126 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5dc;
+    text-align: center;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background: url('https://source.unsplash.com/1600x900/?paddle,sport') center/cover;
+    color: rgb(0, 0, 0);
+    padding: 100px 20px;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  
+  .highlight {
+    color: #ffd700; /* Jaune or */
+  }
+  
+  .hero p {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    background-color: #ff6347; /* Rouge Paddle */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #e5533d;
+  }
+  
+  /* À Propos */
+  .about {
+    padding: 80px 20px;
+    background: white;
+  }
+  
+  .about h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .about-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .card {
+    background: #ff6347;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px;
+  }
+  
+  .card h3 {
+    font-size: 1.5rem;
+  }
+  
+  /* Comment ça marche */
+  .how-it-works {
+    padding: 80px 20px;
+    background: #f1f1f1;
+  }
+  
+  .how-it-works h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .step {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px;
+  }
+  
+  /* CTA */
+  .cta {
+    background: #ff6347;
+    color: white;
+    padding: 60px 20px;
+  }
+  
+  .cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Footer */
+  .footer {
+    background: #222;
+    color: white;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
