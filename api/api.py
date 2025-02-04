@@ -3,9 +3,24 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
+import time
 
 # Configuration de la base de données
-DATABASE_URL = "mysql+mysqlconnector://user:1234567aA*@localhost/Scrumbdd"
+DATABASE_URL = "mysql+mysqlconnector://user:password@db:3306/mydatabase"
+def wait_for_db():
+    while True:
+        try:
+            engine = create_engine(DATABASE_URL)
+            connection = engine.connect()
+            connection.close()
+            print("✅ Database is ready!")
+            break
+        except Exception as e:
+            print(f"⏳ Waiting for database... {e}")
+            time.sleep(5)  # Attendre 5 secondes avant de réessayer
+
+wait_for_db()
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -55,10 +70,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],  # ou "*"
+    allow_origins=["*"],  # Remplacez "*" par ["http://localhost:4200"] pour plus de sécurité
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Permet toutes les méthodes (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Permet tous les headers
 )
 
 
