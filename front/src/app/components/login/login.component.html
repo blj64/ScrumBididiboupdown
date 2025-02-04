@@ -1,72 +1,20 @@
 <div class="auth-container">
-    <!-- Titre dynamique -->
     <h2 *ngIf="isLoginMode">Connexion</h2>
-    <h2 *ngIf="!isLoginMode">Création de compte</h2>
+    <h2 *ngIf="!isLoginMode">Créer un compte</h2>
   
-    <!-- Formulaire de Connexion -->
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" *ngIf="isLoginMode">
-      <div>
-        <label>Email</label>
-        <input type="email" formControlName="email" />
-        <!-- On affiche l'erreur éventuelle si elle est non vide -->
-        <div class="error" *ngIf="loginErrors.email">
-          {{ loginErrors.email }}
-        </div>
-      </div>
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+      <label>Nom d'utilisateur</label>
+      <input type="text" formControlName="nomUtilisateur">
   
-      <div>
-        <label>Mot de passe</label>
-        <input type="password" formControlName="password" />
-        <div class="error" *ngIf="loginErrors.password">
-          {{ loginErrors.password }}
-        </div>
-      </div>
+      <label>Mot de passe</label>
+      <input type="password" formControlName="motDePasse">
   
-      <button type="submit">
-        Se connecter
-      </button>
+      <button type="submit">{{ isLoginMode ? 'Se connecter' : 'Créer un compte' }}</button>
     </form>
   
-    <!-- Formulaire de Création de compte -->
-    <form [formGroup]="signupForm" (ngSubmit)="onSignup()" *ngIf="!isLoginMode">
-      <div>
-        <label>Nom</label>
-        <input type="text" formControlName="lastName" />
-        <div class="error" *ngIf="signupErrors.lastName">
-          {{ signupErrors.lastName }}
-        </div>
-      </div>
+    <div class="message" *ngIf="message">{{ message }}</div>
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
   
-      <div>
-        <label>Prénom</label>
-        <input type="text" formControlName="firstName" />
-        <div class="error" *ngIf="signupErrors.firstName">
-          {{ signupErrors.firstName }}
-        </div>
-      </div>
-  
-      <div>
-        <label>Email</label>
-        <input type="email" formControlName="email" />
-        <div class="error" *ngIf="signupErrors.email">
-          {{ signupErrors.email }}
-        </div>
-      </div>
-  
-      <div>
-        <label>Mot de passe</label>
-        <input type="password" formControlName="password" />
-        <div class="error" *ngIf="signupErrors.password">
-          {{ signupErrors.password }}
-        </div>
-      </div>
-  
-      <button type="submit">
-        Créer le compte
-      </button>
-    </form>
-  
-    <!-- Bouton pour basculer entre les deux formulaires -->
     <button (click)="switchMode()">
       {{ isLoginMode ? 'Créer un compte' : 'Déjà un compte ? Se connecter' }}
     </button>
