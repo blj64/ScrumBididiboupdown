@@ -31,7 +31,7 @@ export class ProfilComponent {
   ngOnInit(): void {
     this.user = this.authService.getUser();
     if (!this.user) {
-      this.router.navigate(['/login']); // Redirige si l'utilisateur n'est pas connecté
+      this.router.navigate(['/login']); // Redirige si non connecté
     } else {
       this.profileForm.patchValue({
         nomUtilisateur: this.user.nomUtilisateur
@@ -51,9 +51,18 @@ export class ProfilComponent {
       next: () => {
         this.message = "Profil mis à jour avec succès !";
       },
-      error: (error) => {
-        this.errorMessage = error.error.detail || "Erreur lors de la mise à jour.";
-      }
+      
     });
+  }
+
+  deleteAccount(): void {
+    if (confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+      this.authService.deleteAccount(this.user.id).subscribe({
+        next: () => {
+          alert("Votre compte a été supprimé.");
+        },
+        
+      });
+    }
   }
 }

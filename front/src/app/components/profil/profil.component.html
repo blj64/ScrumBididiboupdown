@@ -14,4 +14,6 @@
 
   <p class="message" *ngIf="message">{{ message }}</p>
   <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <button class="delete-btn" (click)="deleteAccount()">Supprimer mon compte</button>
 </section>
