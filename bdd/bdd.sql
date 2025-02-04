@@ -1,0 +1,11 @@
+DROP DATABASE IF EXISTS Scrumbdd;
+
+CREATE DATABASE Scrumbdd;
+
+USE Scrumbdd;
+
+CREATE TABLE Joueurs (
+  idJoueur INT AUTO_INCREMENT PRIMARY KEY,
+  nomUtilisateur VARCHAR(30) NOT NULL,
+  motDePasse VARCHAR(50) NOT NULL
+);
