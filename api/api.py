@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
+from fastapi.middleware.cors import CORSMiddleware
 
 # Configuration de la base de données
 DATABASE_URL = "mysql+mysqlconnector://user:1234567aA*@localhost/Scrumbdd"
@@ -50,8 +51,16 @@ class Classement(Base):
 # Création des tables dans la base de données
 Base.metadata.create_all(bind=engine)
 
-# Initialisation de l'API FastAPI
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],  # ou "*"
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Dépendance pour la session DB
 def get_db():
@@ -87,6 +96,23 @@ class ClassementCreate(BaseModel):
     idTournoi: int
     idEquipe: int
     points: int
+
+class JoueurLogin(BaseModel):
+    nomUtilisateur: str
+    motDePasse: str
+
+# 🔹 Endpoint de connexion
+@app.post("/login/", response_model=dict)
+def login_joueur(joueur: JoueurLogin, db: Session = Depends(get_db)):
+    db_joueur = db.query(Joueur).filter(Joueur.nomUtilisateur == joueur.nomUtilisateur).first()
+    
+    if not db_joueur:
+        raise HTTPException(status_code=400, detail="Nom d'utilisateur incorrect")
+
+    if db_joueur.motDePasse != joueur.motDePasse:
+        raise HTTPException(status_code=400, detail="Mot de passe incorrect")
+
+    return {"message": "Connexion réussie", "id": db_joueur.idJoueur, "nomUtilisateur": db_joueur.nomUtilisateur}
 
 # Routes FastAPI
 @app.post("/joueurs/", response_model=dict)
