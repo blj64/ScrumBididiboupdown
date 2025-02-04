@@ -8,6 +8,9 @@
       <a routerLink="/login">Login</a>
     </li>
     <li *ngIf="isAuthenticated">
+      <a routerLink="/profil">Profil</a>
+    </li>
+    <li *ngIf="isAuthenticated">
       <a (click)="logout()">Logout</a>
     </li>
   </ul>

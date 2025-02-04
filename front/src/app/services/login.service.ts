@@ -65,6 +65,28 @@ export class LoginService {
   }
 
   /**
+   * Modifier le profil de l'utilisateur
+   */
+  updateProfile(id: number, nomUtilisateur: string, motDePasse: string): Observable<any> {
+    return new Observable(observer => {
+      this.http.put(`${this.baseUrl}/joueurs/${id}`, { nomUtilisateur, motDePasse }).subscribe({
+        next: (response) => {
+          const updatedUser = { id, nomUtilisateur };
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('user', JSON.stringify(updatedUser)); // ✅ Mettre à jour la session
+          }
+          this.userSubject.next(updatedUser); // ✅ Notifier les autres composants
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
+  }
+
+  /**
    * Vérifier si un utilisateur est connecté
    */
   isAuthenticated(): boolean {
