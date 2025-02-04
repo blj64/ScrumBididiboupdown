@@ -1,0 +1,12 @@
+<div *ngFor="let player of selectedPlayers; let i = index">
+    <label for="player-{{ i }}">Player {{ i + 1 }}:</label>
+    <select [(ngModel)]="selectedPlayers[i]" id="player-{{ i }}">
+      <option *ngFor="let p of players" [value]="p">{{ p }}</option>
+    </select>
+  </div>
+  
+  <p>Selected Players:</p>
+  <ul>
+    <li *ngFor="let selected of selectedPlayers">{{ selected }}</li>
+  </ul>
+  
