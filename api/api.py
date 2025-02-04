@@ -100,6 +100,18 @@ def creer_joueur(joueur: JoueurCreate, db: Session = Depends(get_db)):
     db.refresh(new_joueur)
     return {"message": "Joueur créé avec succès", "id": new_joueur.idJoueur}
 
+@app.get("/joueurs/", response_model=list)
+def lister_joueurs(db: Session = Depends(get_db)):
+    joueurs = db.query(Joueur).all()
+    return [{"id": j.idJoueur, "nomUtilisateur": j.nomUtilisateur} for j in joueurs]
+
+@app.get("/joueurs/{id_joueur}", response_model=dict)
+def recuperer_joueur(id_joueur: int, db: Session = Depends(get_db)):
+    joueur = db.query(Joueur).filter(Joueur.idJoueur == id_joueur).first()
+    if not joueur:
+        raise HTTPException(status_code=404, detail="Joueur non trouvé")
+    return {"id": joueur.idJoueur, "nomUtilisateur": joueur.nomUtilisateur}
+
 @app.post("/equipes/", response_model=dict)
 def creer_equipe(equipe: EquipeCreate, db: Session = Depends(get_db)):
     new_equipe = Equipe(nomEquipe=equipe.nomEquipe, joueur1=equipe.joueur1, joueur2=equipe.joueur2)
