@@ -1,0 +1,17 @@
+<section class="profile">
+  <h2>Mon Profil</h2>
+  <p class="info">Vous pouvez modifier votre pseudo et votre mot de passe.</p>
+
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+    <label for="nomUtilisateur">Pseudo</label>
+    <input id="nomUtilisateur" type="text" formControlName="nomUtilisateur" required>
+
+    <label for="motDePasse">Nouveau Mot de Passe</label>
+    <input id="motDePasse" type="password" formControlName="motDePasse" required>
+
+    <button type="submit">Mettre à jour</button>
+  </form>
+
+  <p class="message" *ngIf="message">{{ message }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</section>
