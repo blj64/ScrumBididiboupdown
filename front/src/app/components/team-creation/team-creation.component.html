@@ -1,12 +1,12 @@
-<div *ngFor="let player of selectedPlayers; let i = index">
-    <label for="player-{{ i }}">Player {{ i + 1 }}:</label>
-    <select [(ngModel)]="selectedPlayers[i]" id="player-{{ i }}">
-      <option *ngFor="let p of players" [value]="p">{{ p }}</option>
-    </select>
+<div class="team-row">
+    <div *ngFor="let team of teamNames; let i = index" class="team-container">
+      <h3 class="team-title">{{ team }}</h3>
+      <div *ngFor="let player of selectedPlayers.slice(i * 2, (i + 1) * 2); let j = index" class="player-selector">
+        <label for="player-{{ i * 2 + j }}" class="player-label">Player {{ i * 2 + j + 1 }}:</label>
+        <select [(ngModel)]="selectedPlayers[i * 2 + j]" id="player-{{ i * 2 + j }}" class="player-dropdown">
+          <option *ngFor="let p of players" [value]="p" class="player-option">{{ p }}</option>
+        </select>
+      </div>
+    </div>
   </div>
-  
-  <p>Selected Players:</p>
-  <ul>
-    <li *ngFor="let selected of selectedPlayers">{{ selected }}</li>
-  </ul>
   
